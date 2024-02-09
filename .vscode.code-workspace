@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"name": ".vscode",
+			"path": "../../Facial recognition Attendance/.vscode"
+		},
+		{
+			"name": "myImages",
+			"path": "../../Facial recognition Attendance/myImages"
+		},
+		{
+			"name": "__pycache__",
+			"path": "../../Facial recognition Attendance/__pycache__"
+		},
+		{
+			"name": "Data",
+			"path": "../../Facial recognition Attendance/Data"
+		},
+		{
+			"name": "HackTu-Project",
+			"path": "."
+		}
+	],
+	"settings": {}
+}
