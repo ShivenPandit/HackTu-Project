@@ -115,6 +115,7 @@ class Face_Recognition_system:
             text="Attendance",
             cursor="hand2",
             font=("times new roman", 15, "bold"),
+            command=self.attendence,
             bg="darkblue",
             fg="white",
         )
