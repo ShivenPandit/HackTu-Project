@@ -17,7 +17,7 @@ class Face_Recognition_system:
         self.root.title("Face Recognition System")
 
         # first image
-        img = Image.open(r"D:\Facial recognition Attendance\myImages\myfg.jpg")
+        img = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\myfg.jpg")
         img = img.resize((520, 130), Image.LANCZOS)  # the resize
         self.photoimg = ImageTk.PhotoImage(img)
 
@@ -25,7 +25,7 @@ class Face_Recognition_system:
         f_lbl.place(x=0, y=0, width=520, height=130)
 
         # second image
-        img1 = Image.open(r"D:\Facial recognition Attendance\myImages\mytech.jpg")
+        img1 = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mytech.jpg")
         img1 = img1.resize((500, 130), Image.LANCZOS)  # the resize
         self.photoimg1 = ImageTk.PhotoImage(img1)
 
@@ -33,7 +33,7 @@ class Face_Recognition_system:
         f_lbl.place(x=520, y=0, width=500, height=130)
 
         # third image
-        img2 = Image.open(r"D:\Facial recognition Attendance\myImages\mytech1.jpg")
+        img2 = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mytech1.jpg")
         img2 = img2.resize((520, 130), Image.LANCZOS)  # the resize
         self.photoimg2 = ImageTk.PhotoImage(img2)
 
@@ -41,7 +41,7 @@ class Face_Recognition_system:
         f_lbl.place(x=1020, y=0, width=520, height=130)
 
         # bg image
-        img3 = Image.open(r"D:\Facial recognition Attendance\myImages\mybg2.jpg")
+        img3 = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mybg2.jpg")
         img3 = img3.resize((1540, 790), Image.LANCZOS)  # the resize
         self.photoimg3 = ImageTk.PhotoImage(img3)
 
@@ -59,7 +59,7 @@ class Face_Recognition_system:
         title_lbl.place(x=0, y=0, width=1530, height=45)
 
         # student button
-        img4 = Image.open(r"D:\Facial recognition Attendance\myImages\mydata1.jpg")
+        img4 = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mydata1.jpg")
         img4 = img4.resize((220, 220), Image.LANCZOS)  # the resize
         self.photoimg4 = ImageTk.PhotoImage(img4)
 
@@ -80,7 +80,7 @@ class Face_Recognition_system:
         b1_1.place(x=200, y=300, width=220, height=40)
 
         # Detect button
-        img5 = Image.open(r"D:\Facial recognition Attendance\myImages\mydetect.jpg")
+        img5 = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mydetect.jpg")
         img5 = img5.resize((220, 220), Image.LANCZOS)  # the resize
         self.photoimg5 = ImageTk.PhotoImage(img5)
 
@@ -101,7 +101,7 @@ class Face_Recognition_system:
         b1_1.place(x=500, y=300, width=220, height=40)
 
         # Attendance button
-        img6 = Image.open(r"D:\Facial recognition Attendance\myImages\myattend1.png")
+        img6 = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\myattend1.png")
         img6 = img6.resize((220, 220), Image.LANCZOS)  # the resize
         self.photoimg6 = ImageTk.PhotoImage(img6)
 
@@ -115,14 +115,14 @@ class Face_Recognition_system:
             text="Attendance",
             cursor="hand2",
             font=("times new roman", 15, "bold"),
-            command=self.attendence,
             bg="darkblue",
+            command=self.attendence,
             fg="white",
         )
         b1_2.place(x=800, y=300, width=220, height=40)
 
         # Help Desk button
-        img7 = Image.open(r"D:\Facial recognition Attendance\myImages\myhelp.jpg")
+        img7 = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\myhelp.jpg")
         img7 = img7.resize((220, 220), Image.LANCZOS)  # the resize
         self.photoimg7 = ImageTk.PhotoImage(img7)
 
@@ -143,7 +143,7 @@ class Face_Recognition_system:
         b1_3.place(x=1100, y=300, width=220, height=40)
 
         # Train Data button
-        img8 = Image.open(r"D:\Facial recognition Attendance\myImages\mytrain.jpg")
+        img8 = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mytrain.jpg")
         img8 = img8.resize((220, 220), Image.LANCZOS)  # the resize
         self.photoimg8 = ImageTk.PhotoImage(img8)
 
@@ -162,7 +162,7 @@ class Face_Recognition_system:
         b1_4.place(x=200, y=600, width=220, height=40)
 
         # Photos button
-        img9 = Image.open(r"D:\Facial recognition Attendance\myImages\myphoto.jpg")
+        img9 = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\myphoto.jpg")
         img9 = img9.resize((220, 220), Image.LANCZOS)  # the resize
         self.photoimg9 = ImageTk.PhotoImage(img9)
 
@@ -181,7 +181,7 @@ class Face_Recognition_system:
         b1_5.place(x=500, y=600, width=220, height=40)
 
         # Developer button
-        img10 = Image.open(r"D:\Facial recognition Attendance\myImages\mydev.jpg")
+        img10 = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mydev.jpg")
         img10 = img10.resize((220, 220), Image.LANCZOS)  # the resize
         self.photoimg10 = ImageTk.PhotoImage(img10)
 
@@ -202,7 +202,7 @@ class Face_Recognition_system:
         b1_6.place(x=800, y=600, width=220, height=40)
 
         # Exit button
-        img11 = Image.open(r"D:\Facial recognition Attendance\myImages\myexit.jpg")
+        img11 = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\myexit.jpg")
         img11 = img11.resize((220, 220), Image.LANCZOS)  # the resize
         self.photoimg11 = ImageTk.PhotoImage(img11)
 

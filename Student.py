@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk  # use for images
 from tkinter import messagebox
-import mysql.connector
+import sqlite3
 import os
 import cv2
 import time
@@ -32,7 +32,7 @@ class Student:
         self.var_photo = StringVar()
 
         # first image
-        img = Image.open(r"D:\Facial recognition Attendance\myImages\mystu.jpg")
+        img = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mystu.jpg")
         img = img.resize((520, 130), Image.LANCZOS)  # the resize
         self.photoimg = ImageTk.PhotoImage(img)
 
@@ -40,7 +40,7 @@ class Student:
         f_lbl.place(x=0, y=0, width=520, height=130)
 
         # second image
-        img1 = Image.open(r"D:\Facial recognition Attendance\myImages\mysatt.jpg")
+        img1 = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mysatt.jpg")
         img1 = img1.resize((500, 130), Image.LANCZOS)  # the resize
         self.photoimg1 = ImageTk.PhotoImage(img1)
 
@@ -48,7 +48,7 @@ class Student:
         f_lbl.place(x=520, y=0, width=500, height=130)
 
         # third image
-        img2 = Image.open(r"D:\Facial recognition Attendance\myImages\mystud.jpg")
+        img2 = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mystud.jpg")
         img2 = img2.resize((520, 130), Image.LANCZOS)  # the resize
         self.photoimg2 = ImageTk.PhotoImage(img2)
 
@@ -56,7 +56,7 @@ class Student:
         f_lbl.place(x=1020, y=0, width=520, height=130)
 
         # bg image
-        img3 = Image.open(r"D:\Facial recognition Attendance\myImages\mybg2.jpg")
+        img3 = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mybg2.jpg")
         img3 = img3.resize((1540, 790), Image.LANCZOS)  # the resize
         self.photoimg3 = ImageTk.PhotoImage(img3)
 
@@ -90,7 +90,7 @@ class Student:
 
         # left lablel image
         img_left = Image.open(
-            r"D:\Facial recognition Attendance\myImages\mysdetail.jpg"
+            r"D:\Projects\Facial recognition Attendance\myImages\mysdetail.jpg"
         )
         img_left = img_left.resize((720, 130), Image.LANCZOS)  # the resize
         self.photoimg_left = ImageTk.PhotoImage(img_left)
@@ -508,7 +508,7 @@ class Student:
 
         # Right lablel image
         img_Right = Image.open(
-            r"D:\Facial recognition Attendance\myImages\mystudent.jpg"
+            r"D:\Projects\Facial recognition Attendance\myImages\mystudent.jpg"
         )
         img_Right = img_Right.resize((720, 130), Image.LANCZOS)  # the resize
         self.photoimg_Right = ImageTk.PhotoImage(img_Right)
@@ -663,15 +663,10 @@ class Student:
             messagebox.showerror("Error", "All fields are required", parent=self.root)
         else:
             try:
-                conn = mysql.connector.connect(
-                    host="localhost",
-                    username="root",
-                    password="Shiven@12",
-                    database="facial_recognition_attendance",
-                )
+                conn = sqlite3.connect("face_recognizer.db")
                 my_cursor = conn.cursor()
                 my_cursor.execute(
-                    "insert into student values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                    "insert into student values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     (
                         self.var_depart.get(),
                         self.var_course.get(),
@@ -703,12 +698,7 @@ class Student:
 
     # ================= Fetch data ====================
     def fetch_data(self):
-        conn = mysql.connector.connect(
-            host="localhost",
-            username="root",
-            password="Shiven@12",
-            database="facial_recognition_attendance",
-        )
+        conn = sqlite3.connect("face_recognizer.db")
         my_cursor = conn.cursor()
         my_cursor.execute("select * from student")
         data = my_cursor.fetchall()
@@ -758,15 +748,10 @@ class Student:
                     parent=self.root,
                 )
                 if update > 0:
-                    conn = mysql.connector.connect(
-                        host="localhost",
-                        username="root",
-                        password="Shiven@12",
-                        database="facial_recognition_attendance",
-                    )
+                    conn = sqlite3.connect("face_recognizer.db")
                     my_cursor = conn.cursor()
                     my_cursor.execute(
-                        "UPDATE student SET Depart=%s,Course=%s,Year=%s,Semester=%s,Name=%s,Division=%s,Roll=%s,Gender=%s,Dob=%s,Email=%s,Phone=%s,Address=%s,Teacher=%s,PhotoSample=%s WHERE Student_id=%s",
+                        "UPDATE student SET department=?, course=?, year=?, semester=?, name=?, division=?, roll=?, gender=?, dob=?, email=?, phone=?, address=?, teacher_name=?, photo_sample=? WHERE student_id=?",
                         (
                             self.var_depart.get(),
                             self.var_course.get(),
@@ -812,14 +797,9 @@ class Student:
                     parent=self.root,
                 )
                 if delete > 0:
-                    conn = mysql.connector.connect(
-                        host="localhost",
-                        username="root",
-                        password="Shiven@12",
-                        database="facial_recognition_attendance",
-                    )
+                    conn = sqlite3.connect("face_recognizer.db")
                     my_cursor = conn.cursor()
-                    sql = "DELETE FROM student WHERE Student_id=%s"  # Specify the table name 'student' after DELETE
+                    sql = "DELETE FROM student WHERE Student_id=?"  # Specify the table name 'student' after DELETE
                     val = (self.var_std_id.get(),)
                     my_cursor.execute(sql, val)
                     conn.commit()
@@ -864,12 +844,7 @@ class Student:
             )
         else:
             try:
-                conn = mysql.connector.connect(
-                    host="localhost",
-                    username="root",
-                    password="Shiven@12",
-                    database="facial_recognition_attendance",
-                )
+                conn = sqlite3.connect("face_recognizer.db")
                 my_cursor = conn.cursor()
                 my_cursor.execute("select * from student")
                 myreslut = my_cursor.fetchall()
@@ -878,7 +853,7 @@ class Student:
                     id += 1
 
                 my_cursor.execute(
-                    "UPDATE student SET Depart=%s,Course=%s,Year=%s,Semester=%s,Name=%s,Division=%s,Roll=%s,Gender=%s,Dob=%s,Email=%s,Phone=%s,Address=%s,Teacher=%s,PhotoSample=%s WHERE Student_id=%s",
+                    "UPDATE student SET department=?, course=?, year=?, semester=?, name=?, division=?, roll=?, gender=?, dob=?, email=?, phone=?, address=?, teacher_name=?, photo_sample=? WHERE student_id=?",
                     (
                         self.var_depart.get(),
                         self.var_course.get(),

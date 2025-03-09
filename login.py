@@ -3,7 +3,7 @@ from tkinter import ttk
 from PIL import Image,ImageTk
 from tkinter import messagebox
 from register import Register
-import mysql.connector
+import sqlite3
 from train import Train
 from Student import Student
 from train import Train
@@ -25,7 +25,7 @@ class Login:
         self.var_sa=StringVar()
         self.var_pwd=StringVar()
 
-        self.bg=ImageTk.PhotoImage(file=r"D:\Facial recognition Attendance\myImages\myloginBg1.jpg")
+        self.bg=ImageTk.PhotoImage(file=r"D:\Projects\Facial recognition Attendance\myImages\myloginBg1.jpg")
         
         lb1_bg=Label(self.root,image=self.bg)
         lb1_bg.place(x=0,y=0, relwidth=1,relheight=1)
@@ -33,7 +33,7 @@ class Login:
         frame1= Frame(self.root,bg="#002B53")
         frame1.place(x=560,y=170,width=340,height=450)
 
-        img1=Image.open(r"D:\Facial recognition Attendance\myImages\mylog1.png")
+        img1=Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mylog1.png")
         img1=img1.resize((100,100),Image.LANCZOS)
         self.photoimage1=ImageTk.PhotoImage(img1)
         lb1img1 = Label(image=self.photoimage1,bg="#002B53")
@@ -88,9 +88,9 @@ class Login:
             messagebox.showinfo("Sussessfully","Welcome to Attendance Managment System Using Facial Recognition")
         else:
             # messagebox.showerror("Error","Please Check Username or Password !")
-            conn = mysql.connector.connect(host="localhost", username="root", password="Shiven@12", database="Login")
+            conn = sqlite3.connect("signin.db")
             mycursor = conn.cursor()
-            mycursor.execute("select * from register where email=%s and pwd=%s",(
+            mycursor.execute("select * from register where email=? and pwd=?",(
                 self.txtuser.get(),
                 self.txtpwd.get()
             ))
@@ -116,16 +116,16 @@ class Login:
         elif(self.var_pwd.get()==""):
             messagebox.showerror("Error","Please Enter the New Password!",parent=self.root2)
         else:
-            conn = mysql.connector.connect(host="localhost", username="root", password="Shiven@12", database="Login")
+            conn = sqlite3.connect("signin.db")
             mycursor = conn.cursor()
-            query=("select * from register where email=%s and ss_que=%s and s_ans=%s")
+            query=("select * from register where email=? and ss_que=? and s_ans=?")
             value=(self.txtuser.get(),self.var_ssq.get(),self.var_sa.get())
             mycursor.execute(query,value)
             row=mycursor.fetchone()
             if row==None:
                 messagebox.showerror("Error","Please Enter the Correct Answer!",parent=self.root2)
             else:
-                query=("update register set pwd=%s where email=%s")
+                query=("update register set pwd=? where email=?")
                 value=(self.var_pwd.get(),self.txtuser.get())
                 mycursor.execute(query,value)
 
@@ -141,9 +141,9 @@ class Login:
         if self.txtuser.get()=="":
             messagebox.showerror("Error","Please Enter the Email ID to reset Password!")
         else:
-            conn = mysql.connector.connect(host="localhost", username="root", password="Shiven@12", database="Login")
+            conn = sqlite3.connect("signin.db")
             mycursor = conn.cursor()
-            query=("select * from register where email=%s")
+            query=("select * from register where email=?")
             value=(self.txtuser.get(),)
             mycursor.execute(query,value)
             row=mycursor.fetchone()
@@ -202,7 +202,7 @@ class Face_Recognition_system:
         self.root.title("Face Recognition System")
         
     # first image
-        img=Image.open(r"D:\Facial recognition Attendance\myImages\myfg.jpg")
+        img=Image.open(r"D:\Projects\Facial recognition Attendance\myImages\myfg.jpg")
         img = img.resize((520, 130), Image.LANCZOS) # the resize 
         self.photoimg=ImageTk.PhotoImage(img)
         
@@ -210,7 +210,7 @@ class Face_Recognition_system:
         f_lbl.place(x=0,y=0,width=520,height=130)
         
     # second image
-        img1=Image.open(r"D:\Facial recognition Attendance\myImages\mytech.jpg")
+        img1=Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mytech.jpg")
         img1 = img1.resize((500, 130), Image.LANCZOS) # the resize 
         self.photoimg1=ImageTk.PhotoImage(img1)
         
@@ -218,7 +218,7 @@ class Face_Recognition_system:
         f_lbl.place(x=520,y=0,width=500,height=130)
         
     # third image
-        img2=Image.open(r"D:\Facial recognition Attendance\myImages\mytech1.jpg")
+        img2=Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mytech1.jpg")
         img2 = img2.resize((520, 130), Image.LANCZOS) # the resize 
         self.photoimg2=ImageTk.PhotoImage(img2)
         
@@ -227,7 +227,7 @@ class Face_Recognition_system:
         
         
     # bg image
-        img3=Image.open(r"D:\Facial recognition Attendance\myImages\mybg2.jpg")
+        img3=Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mybg2.jpg")
         img3 = img3.resize((1540, 790), Image.LANCZOS) # the resize 
         self.photoimg3=ImageTk.PhotoImage(img3)
         
@@ -239,7 +239,7 @@ class Face_Recognition_system:
         title_lbl.place(x=0,y=0,width=1530,height=45) 
         
     # student button
-        img4=Image.open(r"D:\Facial recognition Attendance\myImages\mydata1.jpg")
+        img4=Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mydata1.jpg")
         img4 = img4.resize((220, 220), Image.LANCZOS) # the resize 
         self.photoimg4=ImageTk.PhotoImage(img4)
         
@@ -250,7 +250,7 @@ class Face_Recognition_system:
         b1_1.place(x=200,y=300,width=220,height=40)
         
     # Detect button
-        img5=Image.open(r"D:\Facial recognition Attendance\myImages\mydetect.jpg")
+        img5=Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mydetect.jpg")
         img5 = img5.resize((220, 220), Image.LANCZOS) # the resize 
         self.photoimg5=ImageTk.PhotoImage(img5)
         
@@ -261,7 +261,7 @@ class Face_Recognition_system:
         b1_1.place(x=500,y=300,width=220,height=40)
         
     # Attendance button
-        img6=Image.open(r"D:\Facial recognition Attendance\myImages\myattend1.png")
+        img6=Image.open(r"D:\Projects\Facial recognition Attendance\myImages\myattend1.png")
         img6 = img6.resize((220, 220), Image.LANCZOS) # the resize 
         self.photoimg6=ImageTk.PhotoImage(img6)
         
@@ -272,7 +272,7 @@ class Face_Recognition_system:
         b1_2.place(x=800,y=300,width=220,height=40)
             
     # Help Desk button
-        img7=Image.open(r"D:\Facial recognition Attendance\myImages\myhelp.jpg")
+        img7=Image.open(r"D:\Projects\Facial recognition Attendance\myImages\myhelp.jpg")
         img7 = img7.resize((220, 220), Image.LANCZOS) # the resize 
         self.photoimg7=ImageTk.PhotoImage(img7)
         
@@ -284,7 +284,7 @@ class Face_Recognition_system:
         
         
     # Train Data button
-        img8=Image.open(r"D:\Facial recognition Attendance\myImages\mytrain.jpg")
+        img8=Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mytrain.jpg")
         img8 = img8.resize((220, 220), Image.LANCZOS) # the resize 
         self.photoimg8=ImageTk.PhotoImage(img8)
         
@@ -296,7 +296,7 @@ class Face_Recognition_system:
         
         
     # Photos button
-        img9=Image.open(r"D:\Facial recognition Attendance\myImages\myphoto.jpg")
+        img9=Image.open(r"D:\Projects\Facial recognition Attendance\myImages\myphoto.jpg")
         img9 = img9.resize((220, 220), Image.LANCZOS) # the resize 
         self.photoimg9=ImageTk.PhotoImage(img9)
         
@@ -308,7 +308,7 @@ class Face_Recognition_system:
         
         
     # Developer button
-        img10=Image.open(r"D:\Facial recognition Attendance\myImages\mydev.jpg")
+        img10=Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mydev.jpg")
         img10 = img10.resize((220, 220), Image.LANCZOS) # the resize 
         self.photoimg10=ImageTk.PhotoImage(img10)
         
@@ -320,7 +320,7 @@ class Face_Recognition_system:
         
         
     # Exit button
-        img11=Image.open(r"D:\Facial recognition Attendance\myImages\myexit.jpg")
+        img11=Image.open(r"D:\Projects\Facial recognition Attendance\myImages\myexit.jpg")
         img11 = img11.resize((220, 220), Image.LANCZOS) # the resize 
         self.photoimg11=ImageTk.PhotoImage(img11)
         

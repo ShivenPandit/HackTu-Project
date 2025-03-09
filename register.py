@@ -2,7 +2,7 @@ from tkinter import*
 from tkinter import ttk
 from PIL import Image,ImageTk
 from tkinter import messagebox
-import mysql.connector
+import sqlite3
 from Main import Face_Recognition_system
 
 class Register:
@@ -22,7 +22,7 @@ class Register:
         self.var_cpwd=StringVar()
         self.var_check=IntVar()
 
-        self.bg=ImageTk.PhotoImage(file=r"D:\Facial recognition Attendance\myImages\mybgReg.jpg")
+        self.bg=ImageTk.PhotoImage(file=r"D:\Projects\Facial recognition Attendance\myImages\mybgReg.jpg")
         
         lb1_bg=Label(self.root,image=self.bg)
         lb1_bg.place(x=0,y=0, relwidth=1,relheight=1)
@@ -136,16 +136,16 @@ class Register:
         else:
             # messagebox.showinfo("Successfully","Successfully Register!")
             try:
-                conn = mysql.connector.connect(host="localhost", username="root", password="Shiven@12", database="Login")
+                conn = sqlite3.connect("signin.db")
                 mycursor = conn.cursor()
-                query=("select * from register where email=%s")
+                query=("select * from register where email=?")
                 value=(self.var_email.get(),)
                 mycursor.execute(query,value)
                 row=mycursor.fetchone()
                 if row!=None:
                     messagebox.showerror("Error","User already exist,please try another email")
                 else:
-                    mycursor.execute("insert into register values(%s,%s,%s,%s,%s,%s,%s)",(
+                    mycursor.execute("insert into register values(?,?,?,?,?,?,?)",(
                     self.var_fname.get(),
                     self.var_lname.get(),
                     self.var_cnum.get(),

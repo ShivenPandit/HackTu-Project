@@ -4,7 +4,7 @@ from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk
 import os
-import mysql.connector
+import sqlite3
 import cv2
 import numpy as np
 from tkinter import messagebox
@@ -35,7 +35,7 @@ class Attendance:
 
         # This part is image labels setting start
         # first header image
-        img = Image.open(r"D:\Facial recognition Attendance\myImages\mybanner.jpg")
+        img = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mybanner.jpg")
         img = img.resize((1366, 130), Image.LANCZOS)
         self.photoimg = ImageTk.PhotoImage(img)
 
@@ -44,7 +44,7 @@ class Attendance:
         f_lb1.place(x=0, y=0, width=1366, height=130)
 
         # backgorund image
-        bg1 = Image.open(r"D:\Facial recognition Attendance\myImages\mybg2.jpg")
+        bg1 = Image.open(r"D:\Projects\Facial recognition Attendance\myImages\mybg2.jpg")
         bg1 = bg1.resize((1366, 768), Image.LANCZOS)
         self.photobg1 = ImageTk.PhotoImage(bg1)
 
@@ -385,15 +385,10 @@ class Attendance:
                     parent=self.root,
                 )
                 if Update > 0:
-                    conn = mysql.connector.connect(
-                        host="localhost",
-                        username="root",
-                        password="Shiven@12",
-                        database="facial_recognition_attendance",
-                    )
+                    conn = sqlite3.connect("face_recognizer.db")
                     mycursor = conn.cursor()
                     mycursor.execute(
-                        "update stdattendance set std_id=%s,std_roll_no=%s,std_name=%s,std_time=%s,std_date=%s,std_attendance=%s where std_id=%s",
+                        "update stdattendance set std_id=?,std_roll_no=?,std_name=?,std_time=?,std_date=?,std_attendance=? where std_id=?",
                         (
                             self.var_id.get(),
                             self.var_roll.get(),
@@ -428,14 +423,9 @@ class Attendance:
                     "Delete", "Do you want to Delete?", parent=self.root
                 )
                 if delete > 0:
-                    conn = mysql.connector.connect(
-                        host="localhost",
-                        username="root",
-                        password="Shiven@12",
-                        database="facial_recognition_attendance",
-                    )
+                    conn = sqlite3.connect("face_recognizer.db")
                     mycursor = conn.cursor()
-                    sql = "delete from stdattendance where std_id=%s"
+                    sql = "delete from stdattendance where std_id=?"
                     val = (self.var_id.get(),)
                     mycursor.execute(sql, val)
                 else:
@@ -452,12 +442,7 @@ class Attendance:
     # ===========================fatch data form mysql attendance===========
 
     def fetch_data(self):
-        conn = mysql.connector.connect(
-            host="localhost",
-            username="root",
-            password="Shiven@12",
-            database="facial_recognition_attendance",
-        )
+        conn = sqlite3.connect("face_recognizer.db")
         mycursor = conn.cursor()
 
         mycursor.execute("select * from stdattendance")
@@ -568,15 +553,10 @@ class Attendance:
             )
         else:
             try:
-                conn = mysql.connector.connect(
-                    host="localhost",
-                    username="root",
-                    password="Shiven@12",
-                    database="facial_recognition_attendance",
-                )
+                conn = sqlite3.connect("face_recognizer.db")
                 mycursor = conn.cursor()
                 mycursor.execute(
-                    "insert into stdattendance values(%s,%s,%s,%s,%s,%s)",
+                    "insert into stdattendance values(?,?,?,?,?,?)",
                     (
                         self.var_id.get(),
                         self.var_roll.get(),
@@ -596,7 +576,7 @@ class Attendance:
             except Exception as es:
                 messagebox.showerror("Error", f"Due to: {str(es)}", parent=self.root)
 
-    #     conn = mysql.connector.connect(host="localhost",username="root",password="Shiven@12",database="facial_recognition_attendance")
+    #     conn = sqlite3.connect("face_recognizer.db")
     #     mycursor = conn.cursor()
     #     if messagebox.askyesno("Confirmation","Are you sure you want to save attendance on database?"):
     #         for i in mydata:
@@ -606,7 +586,7 @@ class Attendance:
     #             utime = i[3]
     #             udate = i[4]
     #             uattend = i[5]
-    #             qury = "INSERT INTO stdattendance(std_id, std_roll_no, std_name, std_time, std_date, std_attendance) VALUES(%s,%s,%s,%s,%s,%s)"
+    #             qury = "INSERT INTO stdattendance(std_id, std_roll_no, std_name, std_time, std_date, std_attendance) VALUES(?,?,?,?,?,?)"
     #             mycursor.execute(qury,(uid,uroll,uname,utime,udate,uattend))
     #         conn.commit()
     #         conn.close()
